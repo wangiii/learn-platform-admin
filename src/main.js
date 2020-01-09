@@ -9,9 +9,11 @@ import store from '@/store/index'
 
 // 菜单和路由设置
 import router from './router'
-import menuHeader from '@/menu/header'
 import menuAside from '@/menu/aside'
 import { frameInRoutes } from '@/router/routes'
+
+import D2Crud from '@d2-projects/d2-crud'
+Vue.use(D2Crud)
 
 // 核心插件
 Vue.use(d2Admin)
@@ -24,12 +26,10 @@ new Vue({
   created () {
     // 处理路由 得到每一级的路由设置
     this.$store.commit('d2admin/page/init', frameInRoutes)
-    // 设置顶栏菜单
-    this.$store.commit('d2admin/menu/headerSet', menuHeader)
     // 设置侧边栏菜单
     this.$store.commit('d2admin/menu/asideSet', menuAside)
     // 初始化菜单搜索功能
-    this.$store.commit('d2admin/search/init', menuHeader)
+    this.$store.commit('d2admin/search/init', menuAside)
   },
   mounted () {
     // 展示系统信息
