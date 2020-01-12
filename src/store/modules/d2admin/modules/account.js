@@ -29,11 +29,12 @@ export default {
             // uuid 是用户身份唯一标识 用户注册的时候确定 并且不可改变 不可重复
             // token 代表用户当前登录状态 建议在网络请求中携带 token
             // 如有必要 token 需要定时更新，默认保存一天
-            util.cookies.set('uuid', res.uuid)
-            util.cookies.set('token', res.token)
+            util.cookies.set('uuid', res.data.data.uuid)
+            util.cookies.set('token', res.data.data.token)
             // 设置 vuex 用户信息
             await dispatch('d2admin/user/set', {
-              name: res.name
+              // name: res.name
+              name: res.data.data.uuid
             }, { root: true })
             // 用户登录后从持久化数据加载一系列的设置
             await dispatch('load')
@@ -42,6 +43,7 @@ export default {
           })
           .catch(err => {
             console.log('err: ', err)
+            alert('用户名或密码错误')
             reject(err)
           })
       })
@@ -103,7 +105,7 @@ export default {
         // DB -> store 持久化数据加载侧边栏折叠状态
         await dispatch('d2admin/menu/asideCollapseLoad', null, { root: true })
         // DB -> store 持久化数据加载全局尺寸
-        // await dispatch('d2admin/size/load', null, { root: true })
+        await dispatch('d2admin/size/load', null, { root: true })
         // DB -> store 持久化数据加载颜色设置
         // await dispatch('d2admin/color/load', null, { root: true })
         // end

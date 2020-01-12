@@ -11,6 +11,7 @@
 
 <script>
 import axios from 'axios'
+import util from '@/libs/util.js'
 
 export default {
   data () {
@@ -68,7 +69,11 @@ export default {
       console.log(row)
     },
     getCourse () {
-      axios.get('http://127.0.0.1:8080/course/')
+      axios.get('http://localhost:8080/course/', {
+        headers: {
+          'Authorization': 'Bearer ' + util.cookies.get('token')
+        }
+      })
         .then((res) => {
           this.data = res.data.data
         }).catch((err) => {
