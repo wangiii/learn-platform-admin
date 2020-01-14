@@ -137,6 +137,7 @@ export default {
             .then(() => {
               // 重定向对象不存在则返回顶层路径
               this.$router.replace(this.$route.query.redirect || '/')
+              location.replace('/')
             })
         } else {
           // 登录表单校验失败

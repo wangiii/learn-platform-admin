@@ -1,18 +1,25 @@
 // 菜单 侧边栏
-export default [
-  // { path: '/index', title: '首页', icon: 'home' },
-  // {
-  //   title: '页面',
-  //   icon: 'folder-o',
-  //   children: [
-  //     { path: '/page1', title: '页面 1' },
-  //     { path: '/page2', title: '页面 2' },
-  //     // { path: '/page3', title: '页面 3' }
-  //   ]
-  // },
-  {
-    path: '/course',
-    title: '课程管理',
-    icon: 'book'
-  }
-]
+
+import util from '@/libs/util.js'
+
+let role = util.cookies.get('role')
+
+// 管理员菜单
+let adminMenu = {
+  path: '/course',
+  title: '课程管理',
+  icon: 'book'
+}
+
+// 教师菜单
+let teacherMenu = {}
+
+const aside = []
+if (role === 'ROLE_ADMIN') {
+  aside.push(adminMenu)
+}
+if (role === 'ROLE_TEACHER') {
+  aside.push(teacherMenu)
+}
+
+export default aside

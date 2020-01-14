@@ -31,6 +31,7 @@ export default {
             // 如有必要 token 需要定时更新，默认保存一天
             util.cookies.set('uuid', res.data.data.uuid)
             util.cookies.set('token', res.data.data.token)
+            util.cookies.set('role', res.data.data.role)
             // 设置 vuex 用户信息
             await dispatch('d2admin/user/set', {
               // name: res.name
@@ -61,6 +62,7 @@ export default {
         // 删除cookie
         util.cookies.remove('token')
         util.cookies.remove('uuid')
+        util.cookies.remove('role')
         // 清空 vuex 用户信息
         await dispatch('d2admin/user/set', {}, { root: true })
         // 跳转路由
