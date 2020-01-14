@@ -215,42 +215,6 @@ export default {
       border-top-right-radius: 2px;
       border-bottom-right-radius: 2px;
     }
-    // 登陆选项
-    .page-login--options {
-      margin: 0px;
-      padding: 0px;
-      font-size: 14px;
-      color: $color-primary;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
-    .page-login--quick {
-      width: 100%;
-    }
-  }
-  // 快速选择用户面板
-  .page-login--quick-user {
-    @extend %flex-center-col;
-    padding: 10px 0px;
-    border-radius: 4px;
-    &:hover {
-      background-color: $color-bg;
-      i {
-        color: $color-text-normal;
-      }
-      span {
-        color: $color-text-normal;
-      }
-    }
-    i {
-      font-size: 36px;
-      color: $color-text-sub;
-    }
-    span {
-      font-size: 12px;
-      margin-top: 10px;
-      color: $color-text-sub;
-    }
   }
   // footer
   .page-login--content-footer {

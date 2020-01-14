@@ -10,8 +10,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import util from '@/libs/util.js'
+import { get } from '@/api/course'
 
 export default {
   data () {
@@ -69,13 +68,15 @@ export default {
       console.log(row)
     },
     getCourse () {
-      axios.get('http://localhost:8080/course/', {
-        headers: {
-          'Authorization': 'Bearer ' + util.cookies.get('token')
-        }
-      })
+      get()
         .then((res) => {
-          this.data = res.data.data
+          if (res.data.code === 403) {
+            alert('你没有权限访问')
+            this.$router.replace('/')
+          }
+          if (res.data.code === 200) {
+            this.data = res.data.data
+          }
         }).catch((err) => {
           console.log(err)
         })
