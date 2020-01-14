@@ -4,13 +4,17 @@
       :columns="columns"
       :data="data"
       :rowHandle="rowHandle"
-      @custom-emit-1="handleCustomEvent">
+      :edit-template="editTemplate"
+      :form-options="formOptions"
+      @row-edit="handleRowEdit"
+      @dialog-cancel="handleDialogCancel"
+      @row-remove="handleRowRemove">
     </d2-crud>
   </d2-container>
 </template>
 
 <script>
-import { get } from '@/api/course'
+import { getCourse, deleteCourse, updateCourse } from '@/api/course'
 
 export default {
   data () {
@@ -39,36 +43,52 @@ export default {
         {
           title: '学时',
           key: 'classHour'
-        },
-        {
-          title: '创建时间',
-          key: 'createTime'
-        },
-        {
-          title: '更新时间',
-          key: 'updateTime'
         }
       ],
       data: [],
       rowHandle: {
-        custom: [
-          {
-            text: '修改',
-            type: 'warning',
-            size: 'small',
-            emit: 'custom-emit-1'
-          }
-        ]
+        edit: {
+          size: 'mini'
+        },
+        remove: {
+          size: 'mini',
+          fixed: 'right',
+          confirm: true
+        }
+      },
+      editTemplate: {
+        name: {
+          title: '课程名',
+          value: ''
+        },
+        cover: {
+          title: '封面图',
+          value: ''
+        },
+        semester: {
+          title: '学期',
+          value: ''
+        },
+        credit: {
+          title: '学分',
+          value: ''
+        },
+        classHour: {
+          title: '学时',
+          value: ''
+        }
+      },
+      formOptions: {
+        labelWidth: '60px',
+        labelPosition: 'left',
+        saveLoading: false,
+        gutter: 1
       }
     }
   },
   methods: {
-    handleCustomEvent ({ index, row }) {
-      console.log(index)
-      console.log(row)
-    },
-    getCourse () {
-      get()
+    getCourses () {
+      getCourse()
         .then((res) => {
           if (res.data.code === 403) {
             alert('你没有权限访问')
@@ -80,10 +100,53 @@ export default {
         }).catch((err) => {
           console.log(err)
         })
+    },
+    handleRowEdit ({ index, row }, done) {
+      this.formOptions.saveLoading = true
+      updateCourse(row.id, row)
+        .then((res) => {
+          if (res.data.code === 403) {
+            alert('你没有操作权限')
+          }
+          if (res.data.code === 200) {
+            this.$message({
+              message: '编辑成功',
+              type: 'success'
+            })
+            done()
+            this.formOptions.saveLoading = false
+          }
+        }).catch((err) => {
+          console.log(err)
+        })
+    },
+    handleDialogCancel (done) {
+      this.$message({
+        message: '取消编辑',
+        type: 'warning'
+      })
+      done()
+    },
+    handleRowRemove ({ index, row }, done) {
+      deleteCourse(row.id)
+        .then((res) => {
+          if (res.data.code === 403) {
+            alert('你没有操作权限')
+          }
+          if (res.data.code === 200) {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            done()
+          }
+        }).catch((err) => {
+          console.log(err)
+        })
     }
   },
   mounted () {
-    this.getCourse()
+    this.getCourses()
   }
 }
 </script>
