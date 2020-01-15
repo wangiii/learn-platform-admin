@@ -2,7 +2,7 @@ import axios from 'axios'
 import util from '@/libs/util.js'
 
 function getCourse () {
-  return axios.get('http://localhost:8080/course/', {
+  return axios.get('http://localhost:8888/course/', {
     headers: {
       'Authorization': 'Bearer ' + util.cookies.get('token')
     }
@@ -10,7 +10,7 @@ function getCourse () {
 }
 
 function deleteCourse (id) {
-  return axios.delete('http://localhost:8080/course/' + id, {
+  return axios.delete('http://localhost:8888/course/' + id, {
     headers: {
       'Authorization': 'Bearer ' + util.cookies.get('token')
     }
@@ -28,7 +28,7 @@ function updateCourse (id, row) {
 
   return axios({
     method: 'put',
-    url: 'http://localhost:8080/course/' + id,
+    url: 'http://localhost:8888/course/' + id,
     headers: {
       'Authorization': 'Bearer ' + util.cookies.get('token')
     },
