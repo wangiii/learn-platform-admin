@@ -29,6 +29,7 @@ module.exports = {
   publicPath,
   lintOnSave: true,
   devServer: {
+    port: 3000,
     publicPath // 和 publicPath 保持一致
   },
   css: {
