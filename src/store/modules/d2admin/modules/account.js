@@ -32,10 +32,11 @@ export default {
             util.cookies.set('uuid', res.data.data.uuid)
             util.cookies.set('token', res.data.data.token)
             util.cookies.set('role', res.data.data.role)
+            util.cookies.set('userName', res.data.data.userName)
             // 设置 vuex 用户信息
             await dispatch('d2admin/user/set', {
               // name: res.name
-              name: res.data.data.uuid
+              name: res.data.data.userName
             }, { root: true })
             // 用户登录后从持久化数据加载一系列的设置
             await dispatch('load')
