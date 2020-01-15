@@ -1,8 +1,13 @@
 import axios from 'axios'
 import util from '@/libs/util.js'
 
-function getCourse () {
-  return axios.get('http://localhost:8888/course/', {
+function getCourse (currentPage) {
+  let pageNum = 1
+  let pageSize = 5
+  if (currentPage != null) {
+    pageNum = currentPage
+  }
+  return axios.get('http://localhost:8888/course/?pageNum=' + pageNum + '&pageSize=' + pageSize, {
     headers: {
       'Authorization': 'Bearer ' + util.cookies.get('token')
     }

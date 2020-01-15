@@ -12,7 +12,10 @@
       @row-remove="handleRowRemove"
       add-title="新增课程"
       :add-template="addTemplate"
-      @row-add="handleRowAdd">
+      @row-add="handleRowAdd"
+      :loading="loading"
+      :pagination="pagination"
+      @pagination-current-change="paginationCurrentChange">
       <el-button slot="header" style="margin-bottom: 5px" @click="newCourse">新增课程</el-button>
     </d2-crud>
   </d2-container>
@@ -51,6 +54,12 @@ export default {
         }
       ],
       data: [],
+      loading: false,
+      pagination: {
+        currentPage: 1,
+        pageSize: 5,
+        total: 0
+      },
       rowHandle: {
         edit: {
           size: 'mini'
@@ -122,10 +131,14 @@ export default {
             this.$router.replace('/')
           }
           if (res.data.code === 200) {
-            this.data = res.data.data
+            this.data = res.data.data.list
+            this.pagination.total = res.data.data.total
+            this.pagination.pageSize = res.data.data.pageSize
           }
+          this.loading = false
         }).catch((err) => {
           console.log(err)
+          this.loading = false
         })
     },
     handleRowEdit ({ index, row }, done) {
@@ -202,6 +215,24 @@ export default {
         this.getCourses()
         alert('课程名不能为空')
       }
+    },
+    paginationCurrentChange (currentPage) {
+      this.pagination.currentPage = currentPage
+      getCourse(currentPage)
+        .then((res) => {
+          if (res.data.code === 403) {
+            alert('你没有权限访问')
+            this.$router.replace('/')
+          }
+          if (res.data.code === 200) {
+            this.data = res.data.data.list
+            this.pagination.total = res.data.data.total
+          }
+          this.loading = false
+        }).catch((err) => {
+          console.log(err)
+          this.loading = false
+        })
     }
   },
   mounted () {
