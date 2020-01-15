@@ -1,6 +1,7 @@
 <template>
   <d2-container>
     <d2-crud
+      ref="d2Crud"
       :columns="columns"
       :data="data"
       :rowHandle="rowHandle"
@@ -8,13 +9,17 @@
       :form-options="formOptions"
       @row-edit="handleRowEdit"
       @dialog-cancel="handleDialogCancel"
-      @row-remove="handleRowRemove">
+      @row-remove="handleRowRemove"
+      add-title="新增课程"
+      :add-template="addTemplate"
+      @row-add="handleRowAdd">
+      <el-button slot="header" style="margin-bottom: 5px" @click="newCourse">新增课程</el-button>
     </d2-crud>
   </d2-container>
 </template>
 
 <script>
-import { getCourse, deleteCourse, updateCourse } from '@/api/course'
+import { getCourse, deleteCourse, updateCourse, addCourse } from '@/api/course'
 
 export default {
   data () {
@@ -83,6 +88,28 @@ export default {
         labelPosition: 'left',
         saveLoading: false,
         gutter: 1
+      },
+      addTemplate: {
+        name: {
+          title: '课程名',
+          value: ''
+        },
+        cover: {
+          title: '封面图',
+          value: ''
+        },
+        semester: {
+          title: '学期',
+          value: ''
+        },
+        credit: {
+          title: '学分',
+          value: ''
+        },
+        classHour: {
+          title: '学时',
+          value: ''
+        }
       }
     }
   },
@@ -122,7 +149,7 @@ export default {
     },
     handleDialogCancel (done) {
       this.$message({
-        message: '取消编辑',
+        message: '取消操作',
         type: 'warning'
       })
       done()
@@ -143,6 +170,38 @@ export default {
         }).catch((err) => {
           console.log(err)
         })
+    },
+    newCourse () {
+      this.$refs.d2Crud.showDialog({
+        mode: 'add'
+      })
+    },
+    handleRowAdd (row, done) {
+      this.formOptions.saveLoading = true
+      if (row.name !== '' && row.name !== undefined) {
+        addCourse(row.id, row)
+          .then((res) => {
+            if (res.data.code === 403) {
+              alert('你没有操作权限')
+            }
+            if (res.data.code === 200) {
+              this.$message({
+                message: '添加成功',
+                type: 'success'
+              })
+              done()
+              this.getCourses()
+              this.formOptions.saveLoading = false
+            }
+          }).catch((err) => {
+            console.log(err)
+          })
+      } else {
+        this.formOptions.saveLoading = false
+        done()
+        this.getCourses()
+        alert('课程名不能为空')
+      }
     }
   },
   mounted () {
