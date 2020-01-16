@@ -21,6 +21,7 @@ const frameIn = [
         },
         component: _import('system/index')
       },
+      // 课程管理
       {
         path: 'course',
         name: 'course',
@@ -29,6 +30,16 @@ const frameIn = [
           auth: true
         },
         component: _import('course')
+      },
+      // 院系管理
+      {
+        path: 'faculty',
+        name: 'faculty',
+        meta: {
+          title: '院系管理',
+          auth: true
+        },
+        component: _import('faculty')
       },
       // 系统 前端日志
       {

@@ -1,0 +1,195 @@
+<template>
+  <d2-container>
+    <d2-crud
+      ref="d2Crud"
+      :columns="columns"
+      :data="data"
+      :rowHandle="rowHandle"
+      :edit-template="editTemplate"
+      :form-options="formOptions"
+      @row-edit="handleRowEdit"
+      @dialog-cancel="handleDialogCancel"
+      @row-remove="handleRowRemove"
+      add-title="新增院系"
+      :add-template="addTemplate"
+      @row-add="handleRowAdd"
+      :loading="loading"
+      :pagination="pagination"
+      @pagination-current-change="paginationCurrentChange">
+      <el-button slot="header" style="margin-bottom: 5px" @click="newCourse">新增院系</el-button>
+    </d2-crud>
+  </d2-container>
+</template>
+
+<script>
+import { getFaculty, deleteFaculty, updateFaculty, addFaculty } from '@/api/faculty'
+
+export default {
+  data () {
+    return {
+      columns: [
+        {
+          title: 'ID',
+          key: 'id'
+        },
+        {
+          title: '院系名',
+          key: 'name'
+        },
+        {
+          title: '创建时间',
+          key: 'createTime'
+        },
+        {
+          title: '更新时间',
+          key: 'updateTime'
+        }
+      ],
+      data: [],
+      loading: false,
+      pagination: {
+        currentPage: 1,
+        pageSize: 5,
+        total: 0
+      },
+      rowHandle: {
+        edit: {
+          size: 'mini'
+        },
+        remove: {
+          size: 'mini',
+          fixed: 'right',
+          confirm: true
+        }
+      },
+      editTemplate: {
+        name: {
+          title: '院系名',
+          value: ''
+        }
+      },
+      formOptions: {
+        labelWidth: '60px',
+        labelPosition: 'left',
+        saveLoading: false,
+        gutter: 1
+      },
+      addTemplate: {
+        name: {
+          title: '院系名',
+          value: ''
+        }
+      }
+    }
+  },
+  methods: {
+    getFaculties (currentPage) {
+      getFaculty(currentPage)
+        .then((res) => {
+          if (res.data.code === 403) {
+            alert('你没有权限访问')
+            this.$router.replace('/')
+          }
+          if (res.data.code === 200) {
+            this.data = res.data.data.list
+            this.pagination.total = res.data.data.total
+            this.pagination.pageSize = res.data.data.pageSize
+          }
+          this.loading = false
+        }).catch((err) => {
+          console.log(err)
+          this.loading = false
+        })
+    },
+    handleRowEdit ({ index, row }, done) {
+      this.formOptions.saveLoading = true
+      if (row.name !== '') {
+        updateFaculty(row.id, row)
+          .then((res) => {
+            if (res.data.code === 403) {
+              alert('你没有操作权限')
+            }
+            if (res.data.code === 200) {
+              this.$message({
+                message: '编辑成功',
+                type: 'success'
+              })
+              this.getFaculties()
+              done()
+            }
+          }).catch((err) => {
+            console.log(err)
+          })
+      } else {
+        done()
+        alert('数据不能为空')
+      }
+      this.getFaculties()
+      this.formOptions.saveLoading = false
+    },
+    handleDialogCancel (done) {
+      this.$message({
+        message: '取消操作',
+        type: 'warning'
+      })
+      done()
+    },
+    handleRowRemove ({ index, row }, done) {
+      deleteFaculty(row.id)
+        .then((res) => {
+          if (res.data.code === 403) {
+            alert('你没有操作权限')
+          }
+          if (res.data.code === 200) {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            this.getFaculties()
+            done()
+          }
+        }).catch((err) => {
+          console.log(err)
+        })
+    },
+    newCourse () {
+      this.$refs.d2Crud.showDialog({
+        mode: 'add'
+      })
+    },
+    handleRowAdd (row, done) {
+      this.formOptions.saveLoading = true
+      if (row.name !== '') {
+        addFaculty(row.id, row)
+          .then((res) => {
+            if (res.data.code === 403) {
+              alert('你没有操作权限')
+            }
+            if (res.data.code === 200) {
+              this.$message({
+                message: '添加成功',
+                type: 'success'
+              })
+              done()
+              this.getFaculties()
+            }
+          }).catch((err) => {
+            console.log(err)
+          })
+      } else {
+        done()
+        this.getFaculties()
+        alert('院系名不能为空')
+      }
+      this.formOptions.saveLoading = false
+    },
+    paginationCurrentChange (currentPage) {
+      this.pagination.currentPage = currentPage
+      this.getFaculties(currentPage)
+    }
+  },
+  mounted () {
+    this.getFaculties()
+  }
+}
+</script>

@@ -5,21 +5,24 @@ import util from '@/libs/util.js'
 let role = util.cookies.get('role')
 
 // 管理员菜单
-let adminMenu = {
+let course = {
   path: '/course',
   title: '课程管理',
   icon: 'book'
 }
+let faculty = {
+  path: '/faculty',
+  title: '院系管理',
+  icon: 'university'
+}
 
 // 教师菜单
-let teacherMenu = {}
 
 const aside = []
 if (role === 'ROLE_ADMIN') {
-  aside.push(adminMenu)
+  aside.push(faculty)
+  aside.push(course)
 }
-if (role === 'ROLE_TEACHER') {
-  aside.push(teacherMenu)
-}
+if (role === 'ROLE_TEACHER') {}
 
 export default aside
