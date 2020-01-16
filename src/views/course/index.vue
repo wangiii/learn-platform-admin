@@ -123,8 +123,8 @@ export default {
     }
   },
   methods: {
-    getCourses () {
-      getCourse()
+    getCourses (currentPage) {
+      getCourse(currentPage)
         .then((res) => {
           if (res.data.code === 403) {
             alert('你没有权限访问')
@@ -143,22 +143,30 @@ export default {
     },
     handleRowEdit ({ index, row }, done) {
       this.formOptions.saveLoading = true
-      updateCourse(row.id, row)
-        .then((res) => {
-          if (res.data.code === 403) {
-            alert('你没有操作权限')
-          }
-          if (res.data.code === 200) {
-            this.$message({
-              message: '编辑成功',
-              type: 'success'
-            })
-            done()
-            this.formOptions.saveLoading = false
-          }
-        }).catch((err) => {
-          console.log(err)
-        })
+      if (row.name !== '' && row.cover !== '' &&
+      row.semester !== '' && row.credit !== null &&
+      row.classHour !== null && !isNaN(row.credit) && !isNaN(row.credit)) {
+        updateCourse(row.id, row)
+          .then((res) => {
+            if (res.data.code === 403) {
+              alert('你没有操作权限')
+            }
+            if (res.data.code === 200) {
+              this.$message({
+                message: '编辑成功',
+                type: 'success'
+              })
+              done()
+            }
+          }).catch((err) => {
+            console.log(err)
+          })
+      } else {
+        done()
+        alert('数据不能为空')
+      }
+      this.getCourses()
+      this.formOptions.saveLoading = false
     },
     handleDialogCancel (done) {
       this.$message({
@@ -178,6 +186,7 @@ export default {
               message: '删除成功',
               type: 'success'
             })
+            this.getCourses()
             done()
           }
         }).catch((err) => {
@@ -191,7 +200,7 @@ export default {
     },
     handleRowAdd (row, done) {
       this.formOptions.saveLoading = true
-      if (row.name !== '' && row.name !== undefined) {
+      if (row.name !== '') {
         addCourse(row.id, row)
           .then((res) => {
             if (res.data.code === 403) {
@@ -204,35 +213,20 @@ export default {
               })
               done()
               this.getCourses()
-              this.formOptions.saveLoading = false
             }
           }).catch((err) => {
             console.log(err)
           })
       } else {
-        this.formOptions.saveLoading = false
         done()
         this.getCourses()
         alert('课程名不能为空')
       }
+      this.formOptions.saveLoading = false
     },
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
-      getCourse(currentPage)
-        .then((res) => {
-          if (res.data.code === 403) {
-            alert('你没有权限访问')
-            this.$router.replace('/')
-          }
-          if (res.data.code === 200) {
-            this.data = res.data.data.list
-            this.pagination.total = res.data.data.total
-          }
-          this.loading = false
-        }).catch((err) => {
-          console.log(err)
-          this.loading = false
-        })
+      this.getCourses(currentPage)
     }
   },
   mounted () {

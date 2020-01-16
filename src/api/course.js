@@ -3,7 +3,7 @@ import util from '@/libs/util.js'
 
 function getCourse (currentPage) {
   let pageNum = 1
-  let pageSize = 5
+  let pageSize = 10
   if (currentPage != null) {
     pageNum = currentPage
   }
@@ -29,7 +29,6 @@ function updateCourse (id, row) {
   param.append('semester', row.semester)
   param.append('credit', row.credit)
   param.append('classHour', row.classHour)
-  console.log('row.cover:' + row.classHour)
 
   return axios({
     method: 'put',
@@ -48,7 +47,6 @@ function addCourse (id, row) {
   param.append('semester', row.semester)
   param.append('credit', row.credit)
   param.append('classHour', row.classHour)
-  console.log('row.cover:' + row.classHour)
 
   return axios({
     method: 'post',
