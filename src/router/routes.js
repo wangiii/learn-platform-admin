@@ -41,6 +41,16 @@ const frameIn = [
         },
         component: _import('faculty')
       },
+      // 专业管理
+      {
+        path: 'major',
+        name: 'major',
+        meta: {
+          title: '专业管理',
+          auth: true
+        },
+        component: _import('major')
+      },
       // 系统 前端日志
       {
         path: 'log',

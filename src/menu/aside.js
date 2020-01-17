@@ -15,12 +15,18 @@ let faculty = {
   title: '院系管理',
   icon: 'university'
 }
+let major = {
+  path: '/major',
+  title: '专业管理',
+  icon: 'code-fork'
+}
 
 // 教师菜单
 
 const aside = []
 if (role === 'ROLE_ADMIN') {
   aside.push(faculty)
+  aside.push(major)
   aside.push(course)
 }
 if (role === 'ROLE_TEACHER') {}

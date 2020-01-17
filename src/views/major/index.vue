@@ -10,19 +10,19 @@
       @row-edit="handleRowEdit"
       @dialog-cancel="handleDialogCancel"
       @row-remove="handleRowRemove"
-      add-title="新增院系"
+      add-title="新增专业"
       :add-template="addTemplate"
       @row-add="handleRowAdd"
       :loading="loading"
       :pagination="pagination"
       @pagination-current-change="paginationCurrentChange">
-      <el-button slot="header" style="margin-bottom: 5px" @click="newFaculty">新增院系</el-button>
+      <el-button slot="header" style="margin-bottom: 5px" @click="newMajor">新增专业</el-button>
     </d2-crud>
   </d2-container>
 </template>
 
 <script>
-import { getFaculty, deleteFaculty, updateFaculty, addFaculty } from '@/api/faculty'
+import { getMajor, deleteMajor, updateMajor, addMajor, getOptions } from '@/api/major'
 
 export default {
   data () {
@@ -33,8 +33,12 @@ export default {
           key: 'id'
         },
         {
-          title: '院系名',
+          title: '专业名',
           key: 'name'
+        },
+        {
+          title: '所属院系',
+          key: 'facultyName'
         },
         {
           title: '创建时间',
@@ -64,27 +68,45 @@ export default {
       },
       editTemplate: {
         name: {
-          title: '院系名',
+          title: '专业名',
           value: ''
+        },
+        facultyName: {
+          title: '所属院系',
+          value: '',
+          component: {
+            name: 'el-select',
+            options: [],
+            span: 12
+          }
         }
       },
       formOptions: {
-        labelWidth: '60px',
+        labelWidth: '70px',
         labelPosition: 'left',
         saveLoading: false,
         gutter: 1
       },
       addTemplate: {
         name: {
-          title: '院系名',
+          title: '专业名',
           value: ''
+        },
+        facultyName: {
+          title: '所属院系',
+          value: '',
+          component: {
+            name: 'el-select',
+            options: [],
+            span: 12
+          }
         }
       }
     }
   },
   methods: {
-    getFaculties (currentPage) {
-      getFaculty(currentPage)
+    getMajors (currentPage) {
+      getMajor(currentPage)
         .then((res) => {
           if (res.data.code === 403) {
             alert('你没有权限访问')
@@ -103,8 +125,8 @@ export default {
     },
     handleRowEdit ({ index, row }, done) {
       this.formOptions.saveLoading = true
-      if (row.name !== '') {
-        updateFaculty(row.id, row)
+      if (row.name !== '' && row.facultyName !== null) {
+        updateMajor(row.id, row)
           .then((res) => {
             if (res.data.code === 403) {
               alert('你没有操作权限')
@@ -114,7 +136,7 @@ export default {
                 message: '编辑成功',
                 type: 'success'
               })
-              this.getFaculties()
+              this.getMajors()
               done()
             }
           }).catch((err) => {
@@ -124,7 +146,7 @@ export default {
         done()
         alert('数据不能为空')
       }
-      this.getFaculties()
+      this.getMajors()
       this.formOptions.saveLoading = false
     },
     handleDialogCancel (done) {
@@ -135,12 +157,8 @@ export default {
       done()
     },
     handleRowRemove ({ index, row }, done) {
-      deleteFaculty(row.id)
+      deleteMajor(row.id)
         .then((res) => {
-          if (res.data.code === 500) {
-            alert('请先删除该院系所属的专业！')
-          }
-
           if (res.data.code === 403) {
             alert('你没有操作权限')
           }
@@ -149,14 +167,14 @@ export default {
               message: '删除成功',
               type: 'success'
             })
-            this.getFaculties()
+            this.getMajors()
             done()
           }
         }).catch((err) => {
           console.log(err)
         })
     },
-    newFaculty () {
+    newMajor () {
       this.$refs.d2Crud.showDialog({
         mode: 'add'
       })
@@ -164,7 +182,7 @@ export default {
     handleRowAdd (row, done) {
       this.formOptions.saveLoading = true
       if (row.name !== '') {
-        addFaculty(row.id, row)
+        addMajor(row.id, row)
           .then((res) => {
             if (res.data.code === 403) {
               alert('你没有操作权限')
@@ -175,25 +193,39 @@ export default {
                 type: 'success'
               })
               done()
-              this.getFaculties()
+              this.getMajors()
             }
           }).catch((err) => {
             console.log(err)
           })
       } else {
         done()
-        this.getFaculties()
-        alert('院系名不能为空')
+        this.getMajors()
+        alert('专业名不能为空')
       }
       this.formOptions.saveLoading = false
     },
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
-      this.getFaculties(currentPage)
+      this.getMajors(currentPage)
+    },
+    initOptions () {
+      getOptions().then((res) => {
+        if (res.data.code === 403) {
+          alert('你没有操作权限')
+        }
+        if (res.data.code === 200) {
+          this.editTemplate.facultyName.component.options = res.data.data
+          this.addTemplate.facultyName.component.options = res.data.data
+        }
+      }).catch((err) => {
+        console.log(err)
+      })
     }
   },
   mounted () {
-    this.getFaculties()
+    this.getMajors()
+    this.initOptions()
   }
 }
 </script>
