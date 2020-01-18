@@ -30,7 +30,8 @@ export default {
       columns: [
         {
           title: 'ID',
-          key: 'id'
+          key: 'id',
+          sortable: true
         },
         {
           title: '课程名',

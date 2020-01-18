@@ -30,7 +30,8 @@ export default {
       columns: [
         {
           title: 'ID',
-          key: 'id'
+          key: 'id',
+          sortable: true
         },
         {
           title: '专业名',
@@ -42,11 +43,13 @@ export default {
         },
         {
           title: '创建时间',
-          key: 'createTime'
+          key: 'createTime',
+          sortable: true
         },
         {
           title: '更新时间',
-          key: 'updateTime'
+          key: 'updateTime',
+          sortable: true
         }
       ],
       data: [],
