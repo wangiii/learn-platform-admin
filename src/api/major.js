@@ -33,7 +33,7 @@ function deleteMajor (id) {
 function updateMajor (id, row) {
   let param = new URLSearchParams()
   param.append('name', row.name)
-  param.append('facultyId', row.facultyName)
+  param.append('faculty.id', row.facultyName)
 
   return axios({
     method: 'put',
@@ -48,7 +48,7 @@ function updateMajor (id, row) {
 function addMajor (id, row) {
   let param = new URLSearchParams()
   param.append('name', row.name)
-  param.append('facultyId', row.facultyName)
+  param.append('faculty.id', row.facultyName)
 
   return axios({
     method: 'post',
