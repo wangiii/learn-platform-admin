@@ -14,6 +14,14 @@ function getMajor (currentPage) {
   })
 }
 
+function getMajorDTO () {
+  return axios.get('http://localhost:8888/major/dto', {
+    headers: {
+      'Authorization': 'Bearer ' + util.cookies.get('token')
+    }
+  })
+}
+
 function getOptions () {
   return axios.get('http://localhost:8888/faculty/dto', {
     headers: {
@@ -60,4 +68,4 @@ function addMajor (id, row) {
   })
 }
 
-export { getMajor, deleteMajor, updateMajor, addMajor, getOptions }
+export { getMajor, deleteMajor, updateMajor, addMajor, getOptions, getMajorDTO }

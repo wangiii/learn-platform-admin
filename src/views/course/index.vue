@@ -23,6 +23,8 @@
 
 <script>
 import { getCourse, deleteCourse, updateCourse, addCourse } from '@/api/course'
+import { getMajorDTO } from '@/api/major'
+import Tag from './Tag'
 
 export default {
   data () {
@@ -30,8 +32,7 @@ export default {
       columns: [
         {
           title: 'ID',
-          key: 'id',
-          sortable: true
+          key: 'id'
         },
         {
           title: '课程名',
@@ -52,6 +53,13 @@ export default {
         {
           title: '学时',
           key: 'classHour'
+        },
+        {
+          title: '所属专业',
+          key: 'majors',
+          component: {
+            name: Tag
+          }
         }
       ],
       data: [],
@@ -91,10 +99,17 @@ export default {
         classHour: {
           title: '学时',
           value: ''
+        },
+        majors: {
+          title: '所属专业',
+          component: {
+            name: 'el-checkbox',
+            options: []
+          }
         }
       },
       formOptions: {
-        labelWidth: '60px',
+        labelWidth: '70px',
         labelPosition: 'left',
         saveLoading: false,
         gutter: 1
@@ -132,9 +147,9 @@ export default {
             this.$router.replace('/')
           }
           if (res.data.code === 200) {
-            this.data = res.data.data.list
             this.pagination.total = res.data.data.total
             this.pagination.pageSize = res.data.data.pageSize
+            this.data = res.data.data.list
           }
           this.loading = false
         }).catch((err) => {
@@ -157,6 +172,7 @@ export default {
                 message: '编辑成功',
                 type: 'success'
               })
+              this.getCourses()
               done()
             }
           }).catch((err) => {
@@ -187,7 +203,6 @@ export default {
               message: '删除成功',
               type: 'success'
             })
-            this.getCourses()
             done()
           }
         }).catch((err) => {
@@ -228,9 +243,23 @@ export default {
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
       this.getCourses(currentPage)
+    },
+    initMajorDTO () {
+      getMajorDTO()
+        .then((res) => {
+          if (res.data.code === 403) {
+            alert('你没有操作权限')
+          }
+          if (res.data.code === 200) {
+            this.editTemplate.majors.component.options = res.data.data
+          }
+        }).catch((err) => {
+          console.log(err)
+        })
     }
   },
   mounted () {
+    this.initMajorDTO()
     this.getCourses()
   }
 }

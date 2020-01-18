@@ -29,6 +29,14 @@ function updateCourse (id, row) {
   param.append('semester', row.semester)
   param.append('credit', row.credit)
   param.append('classHour', row.classHour)
+  // param.append('majors', row.majors)
+  let majorIds = []
+  if (row.majors.length > 0) {
+    for (var i = 0; i < row.majors.length; i++) {
+      majorIds.push(row.majors[i])
+    }
+  }
+  param.append('majorIds', majorIds)
 
   return axios({
     method: 'put',
