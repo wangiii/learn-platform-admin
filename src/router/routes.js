@@ -51,6 +51,16 @@ const frameIn = [
         },
         component: _import('major')
       },
+      // 学生管理
+      {
+        path: 'student',
+        name: 'student',
+        meta: {
+          title: '学生管理',
+          auth: true
+        },
+        component: _import('student')
+      },
       // 系统 前端日志
       {
         path: 'log',

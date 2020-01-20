@@ -20,6 +20,11 @@ let major = {
   title: '专业管理',
   icon: 'code-fork'
 }
+let student = {
+  path: '/student',
+  title: '学生管理',
+  icon: 'graduation-cap'
+}
 
 // 教师菜单
 
@@ -28,6 +33,7 @@ if (role === 'ROLE_ADMIN') {
   aside.push(faculty)
   aside.push(major)
   aside.push(course)
+  aside.push(student)
 }
 if (role === 'ROLE_TEACHER') {}
 
