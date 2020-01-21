@@ -25,6 +25,11 @@ let student = {
   title: '学生管理',
   icon: 'graduation-cap'
 }
+let teacher = {
+  path: '/teacher',
+  title: '教师管理',
+  icon: 'user-secret'
+}
 
 // 教师菜单
 
@@ -33,6 +38,7 @@ if (role === 'ROLE_ADMIN') {
   aside.push(faculty)
   aside.push(major)
   aside.push(course)
+  aside.push(teacher)
   aside.push(student)
 }
 if (role === 'ROLE_TEACHER') {}

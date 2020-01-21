@@ -51,6 +51,16 @@ const frameIn = [
         },
         component: _import('major')
       },
+      // 教师管理
+      {
+        path: 'teacher',
+        name: 'teacher',
+        meta: {
+          title: '教师管理',
+          auth: true
+        },
+        component: _import('teacher')
+      },
       // 学生管理
       {
         path: 'student',
