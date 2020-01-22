@@ -6,6 +6,11 @@
       :data="data"
       :rowHandle="rowHandle"
       @row-remove="handleRowRemove"
+      :edit-template="editTemplate"
+      :form-options="formOptions"
+      @row-edit="handleRowEdit"
+      @dialog-cancel="handleDialogCancel"
+      :loading="loading"
       :pagination="pagination"
       @pagination-current-change="paginationCurrentChange">
     </d2-crud>
@@ -13,7 +18,7 @@
 </template>
 
 <script>
-import { getTeacher, deleteTeacher } from '@/api/teacher'
+import { getTeacher, deleteTeacher, updateTeacher, getOptions } from '@/api/teacher'
 
 export default {
   data () {
@@ -32,14 +37,8 @@ export default {
           key: 'phone'
         },
         {
-          title: '创建时间',
-          key: 'createTime',
-          sortable: true
-        },
-        {
-          title: '更新时间',
-          key: 'updateTime',
-          sortable: true
+          title: '所属院系',
+          key: 'facultyName'
         }
       ],
       data: [],
@@ -50,11 +49,42 @@ export default {
         total: 0
       },
       rowHandle: {
+        edit: {
+          size: 'mini'
+        },
         remove: {
           size: 'mini',
           fixed: 'right',
           confirm: true
         }
+      },
+      editTemplate: {
+        name: {
+          title: '教师名称',
+          value: ''
+        },
+        facultyName: {
+          title: '所属院系',
+          value: '',
+          component: {
+            name: 'el-select',
+            options: [],
+            span: 12
+          }
+        }
+        // majors: {
+        //   title: '所教专业',
+        //   component: {
+        //     name: 'el-checkbox',
+        //     options: []
+        //   }
+        // }
+      },
+      formOptions: {
+        labelWidth: '70px',
+        labelPosition: 'left',
+        saveLoading: false,
+        gutter: 1
       }
     }
   },
@@ -97,10 +127,60 @@ export default {
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
       this.getTeachers(currentPage)
+    },
+    handleRowEdit ({ index, row }, done) {
+      this.formOptions.saveLoading = true
+      if (row.name !== '' && row.facultyName !== null) {
+        if (isNaN(row.facultyName)) {
+          alert('请选择教师院系')
+        }
+        updateTeacher(row.phone, row)
+          .then((res) => {
+            if (res.data.code === 403) {
+              alert('你没有操作权限')
+            }
+            if (res.data.code === 200) {
+              this.$message({
+                message: '编辑成功',
+                type: 'success'
+              })
+              this.getTeachers()
+              done()
+            }
+          }).catch((err) => {
+            console.log(err)
+          })
+      } else {
+        done()
+        alert('数据不能为空')
+      }
+      this.getTeachers()
+      this.formOptions.saveLoading = false
+    },
+    handleDialogCancel (done) {
+      this.$message({
+        message: '取消操作',
+        type: 'warning'
+      })
+      done()
+    },
+    initOptions () {
+      getOptions().then((res) => {
+        if (res.data.code === 403) {
+          alert('你没有操作权限')
+        }
+        if (res.data.code === 200) {
+          this.editTemplate.facultyName.component.options = res.data.data
+          this.addTemplate.facultyName.component.options = res.data.data
+        }
+      }).catch((err) => {
+        console.log(err)
+      })
     }
   },
   mounted () {
     this.getTeachers()
+    this.initOptions()
   }
 }
 </script>
