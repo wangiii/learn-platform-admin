@@ -129,6 +129,9 @@ export default {
     handleRowEdit ({ index, row }, done) {
       this.formOptions.saveLoading = true
       if (row.name !== '' && row.facultyName !== null) {
+        if (isNaN(row.facultyName)) {
+          alert('请选择专业所属院系')
+        }
         updateMajor(row.id, row)
           .then((res) => {
             if (res.data.code === 403) {
