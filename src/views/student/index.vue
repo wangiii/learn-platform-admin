@@ -32,14 +32,12 @@ export default {
           key: 'phone'
         },
         {
-          title: '创建时间',
-          key: 'createTime',
-          sortable: true
+          title: '所属院系',
+          key: 'facultyName'
         },
         {
-          title: '更新时间',
-          key: 'updateTime',
-          sortable: true
+          title: '所属专业',
+          key: 'majorName'
         }
       ],
       data: [],
