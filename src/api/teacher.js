@@ -27,13 +27,13 @@ function updateTeacher (id, row) {
   param.append('name', row.name)
   param.append('faculty.id', row.facultyName)
   // param.append('majors', row.majors)
-  // let majorIds = []
-  // if (row.majors.length > 0) {
-  //   for (var i = 0; i < row.majors.length; i++) {
-  //     majorIds.push(row.majors[i])
-  //   }
-  // }
-  // param.append('majorIds', majorIds)
+  let majorIds = []
+  if (row.majors.length > 0) {
+    for (var i = 0; i < row.majors.length; i++) {
+      majorIds.push(row.majors[i])
+    }
+  }
+  param.append('majorIds', majorIds)
 
   return axios({
     method: 'put',

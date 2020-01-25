@@ -172,16 +172,14 @@ export default {
                 message: '编辑成功',
                 type: 'success'
               })
-              this.getCourses()
-              done()
             }
           }).catch((err) => {
             console.log(err)
           })
       } else {
-        done()
         alert('数据不能为空')
       }
+      done()
       this.getCourses()
       this.formOptions.saveLoading = false
     },

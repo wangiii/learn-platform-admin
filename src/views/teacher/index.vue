@@ -19,6 +19,8 @@
 
 <script>
 import { getTeacher, deleteTeacher, updateTeacher, getOptions } from '@/api/teacher'
+import { getMajorDTO } from '@/api/major'
+import Tag from './Tag'
 
 export default {
   data () {
@@ -39,6 +41,13 @@ export default {
         {
           title: '所属院系',
           key: 'facultyName'
+        },
+        {
+          title: '所教专业',
+          key: 'majors',
+          component: {
+            name: Tag
+          }
         }
       ],
       data: [],
@@ -71,14 +80,14 @@ export default {
             options: [],
             span: 12
           }
+        },
+        majors: {
+          title: '所教专业',
+          component: {
+            name: 'el-checkbox',
+            options: []
+          }
         }
-        // majors: {
-        //   title: '所教专业',
-        //   component: {
-        //     name: 'el-checkbox',
-        //     options: []
-        //   }
-        // }
       },
       formOptions: {
         labelWidth: '70px',
@@ -176,11 +185,25 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
+    },
+    initMajorDTO () {
+      getMajorDTO()
+        .then((res) => {
+          if (res.data.code === 403) {
+            alert('你没有操作权限')
+          }
+          if (res.data.code === 200) {
+            this.editTemplate.majors.component.options = res.data.data
+          }
+        }).catch((err) => {
+          console.log(err)
+        })
     }
   },
   mounted () {
     this.getTeachers()
     this.initOptions()
+    this.initMajorDTO()
   }
 }
 </script>
