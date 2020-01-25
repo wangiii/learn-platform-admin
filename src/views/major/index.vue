@@ -130,7 +130,7 @@ export default {
       this.formOptions.saveLoading = true
       if (row.name !== '' && row.facultyName !== null) {
         if (isNaN(row.facultyName)) {
-          alert('请选择专业所属院系')
+          row.facultyName = row.facultyId
         }
         updateMajor(row.id, row)
           .then((res) => {

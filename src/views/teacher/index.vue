@@ -132,7 +132,7 @@ export default {
       this.formOptions.saveLoading = true
       if (row.name !== '' && row.facultyName !== null) {
         if (isNaN(row.facultyName)) {
-          alert('请选择教师院系')
+          row.facultyName = row.facultyId
         }
         updateTeacher(row.phone, row)
           .then((res) => {
