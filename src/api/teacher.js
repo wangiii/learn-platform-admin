@@ -53,4 +53,21 @@ function getOptions () {
   })
 }
 
-export { getTeacher, deleteTeacher, updateTeacher, getOptions }
+function addTeacher (id, row) {
+  let param = new URLSearchParams()
+  param.append('name', row.name)
+  param.append('phone', row.phone)
+  param.append('password', row.password)
+  param.append('faculty.id', row.facultyName)
+
+  return axios({
+    method: 'post',
+    url: 'http://localhost:8888/teacher/',
+    headers: {
+      'Authorization': 'Bearer ' + util.cookies.get('token')
+    },
+    data: param
+  })
+}
+
+export { getTeacher, deleteTeacher, updateTeacher, getOptions, addTeacher }

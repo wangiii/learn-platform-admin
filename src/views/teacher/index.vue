@@ -10,15 +10,19 @@
       :form-options="formOptions"
       @row-edit="handleRowEdit"
       @dialog-cancel="handleDialogCancel"
+      add-title="新增教师"
+      :add-template="addTemplate"
+      @row-add="handleRowAdd"
       :loading="loading"
       :pagination="pagination"
       @pagination-current-change="paginationCurrentChange">
+      <el-button slot="header" style="margin-bottom: 5px" @click="newTeacher">新增教师</el-button>
     </d2-crud>
   </d2-container>
 </template>
 
 <script>
-import { getTeacher, deleteTeacher, updateTeacher, getOptions } from '@/api/teacher'
+import { getTeacher, deleteTeacher, updateTeacher, getOptions, addTeacher } from '@/api/teacher'
 import { getMajorDTO } from '@/api/major'
 import Tag from './Tag'
 
@@ -86,6 +90,29 @@ export default {
           component: {
             name: 'el-checkbox',
             options: []
+          }
+        }
+      },
+      addTemplate: {
+        name: {
+          title: '教师名称',
+          value: ''
+        },
+        phone: {
+          title: '教师手机',
+          value: ''
+        },
+        password: {
+          title: '教师密码',
+          value: ''
+        },
+        facultyName: {
+          title: '所属院系',
+          value: '',
+          component: {
+            name: 'el-select',
+            options: [],
+            span: 12
           }
         }
       },
@@ -198,6 +225,35 @@ export default {
         }).catch((err) => {
           console.log(err)
         })
+    },
+    newTeacher () {
+      this.$refs.d2Crud.showDialog({
+        mode: 'add'
+      })
+    },
+    handleRowAdd (row, done) {
+      this.formOptions.saveLoading = true
+      if (row.name !== '' && row.phone !== '' && row.password !== '') {
+        addTeacher(row.id, row)
+          .then((res) => {
+            if (res.data.code === 403) {
+              alert('你没有操作权限')
+            }
+            if (res.data.code === 200) {
+              this.$message({
+                message: '添加成功',
+                type: 'success'
+              })
+              this.getTeachers()
+            }
+          }).catch((err) => {
+            console.log(err)
+          })
+      } else {
+        alert('教师信息不能为空')
+      }
+      done()
+      this.formOptions.saveLoading = false
     }
   },
   mounted () {
