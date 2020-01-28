@@ -160,8 +160,7 @@ export default {
               message: '删除成功',
               type: 'success'
             })
-            this.getTeachers()
-            done()
+            this.reload()
           }
         }).catch((err) => {
           console.log(err)
@@ -251,7 +250,7 @@ export default {
                 message: '添加成功',
                 type: 'success'
               })
-              this.getTeachers()
+              this.reload()
             }
           }).catch((err) => {
             console.log(err)
