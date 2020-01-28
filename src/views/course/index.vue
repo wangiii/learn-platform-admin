@@ -138,6 +138,7 @@ export default {
       }
     }
   },
+  inject: ['reload'],
   methods: {
     getCourses (currentPage) {
       getCourse(currentPage)
@@ -172,6 +173,7 @@ export default {
                 message: '编辑成功',
                 type: 'success'
               })
+              this.reload()
             }
           }).catch((err) => {
             console.log(err)

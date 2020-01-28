@@ -129,6 +129,7 @@ export default {
       }
     }
   },
+  inject: ['reload'],
   methods: {
     getTeachers (currentPage) {
       getTeacher(currentPage)
@@ -186,8 +187,8 @@ export default {
                 message: '编辑成功',
                 type: 'success'
               })
-              this.getTeachers()
               done()
+              this.reload()
             }
           }).catch((err) => {
             console.log(err)
