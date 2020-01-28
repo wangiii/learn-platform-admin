@@ -17,12 +17,16 @@
       :pagination="pagination"
       @pagination-current-change="paginationCurrentChange">
       <el-button slot="header" style="margin-bottom: 5px" @click="newTeacher">新增教师</el-button>
+      <el-input slot="header" style="margin-bottom: 5px"
+        prefix-icon="el-icon-search"
+        v-model="searchPhone"
+        placeholder="请输入手机号"></el-input>
     </d2-crud>
   </d2-container>
 </template>
 
 <script>
-import { getTeacher, deleteTeacher, updateTeacher, getOptions, addTeacher } from '@/api/teacher'
+import { getTeacher, deleteTeacher, updateTeacher, getOptions, addTeacher, getSearchTeacher } from '@/api/teacher'
 import { getMajorDTO } from '@/api/major'
 import Tag from './Tag'
 
@@ -54,6 +58,7 @@ export default {
           }
         }
       ],
+      searchPhone: '',
       data: [],
       loading: false,
       pagination: {
@@ -255,12 +260,41 @@ export default {
       }
       done()
       this.formOptions.saveLoading = false
+    },
+    search (phone) {
+      getSearchTeacher(phone)
+        .then((res) => {
+          console.log(phone)
+          console.log(res.data.data.list)
+          if (res.data.code === 403) {
+            alert('你没有权限访问')
+            this.$router.replace('/')
+          }
+          if (res.data.code === 200) {
+            this.pagination.total = res.data.data.total
+            this.pagination.pageSize = res.data.data.pageSize
+            this.data = res.data.data.list
+          }
+          this.loading = false
+        }).catch((err) => {
+          console.log(err)
+          this.loading = false
+        })
     }
   },
   mounted () {
     this.getTeachers()
     this.initOptions()
     this.initMajorDTO()
+  },
+  watch: {
+    searchPhone: function (val) {
+      if (val !== '') {
+        this.search(val)
+      } else {
+        this.getTeachers()
+      }
+    }
   }
 }
 </script>

@@ -14,6 +14,16 @@ function getTeacher (currentPage) {
   })
 }
 
+function getSearchTeacher (phone) {
+  let pageNum = 1
+  let pageSize = 10
+  return axios.get('http://localhost:8888/teacher/search/?pageNum=' + pageNum + '&pageSize=' + pageSize + '&phone=' + phone, {
+    headers: {
+      'Authorization': 'Bearer ' + util.cookies.get('token')
+    }
+  })
+}
+
 function deleteTeacher (phone) {
   return axios.delete('http://localhost:8888/teacher/' + phone, {
     headers: {
@@ -70,4 +80,4 @@ function addTeacher (id, row) {
   })
 }
 
-export { getTeacher, deleteTeacher, updateTeacher, getOptions, addTeacher }
+export { getTeacher, deleteTeacher, updateTeacher, getOptions, addTeacher, getSearchTeacher }
