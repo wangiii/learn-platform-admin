@@ -8,12 +8,16 @@
       @row-remove="handleRowRemove"
       :pagination="pagination"
       @pagination-current-change="paginationCurrentChange">
+      <el-input slot="header" style="margin-bottom: 5px"
+        prefix-icon="el-icon-search"
+        v-model="searchPhone"
+        placeholder="请输入手机号"></el-input>
     </d2-crud>
   </d2-container>
 </template>
 
 <script>
-import { getStudent, deleteStudent } from '@/api/student'
+import { getStudent, deleteStudent, getSearchStudent } from '@/api/student'
 
 export default {
   data () {
@@ -41,6 +45,7 @@ export default {
         }
       ],
       data: [],
+      searchPhone: '',
       loading: false,
       pagination: {
         currentPage: 1,
@@ -95,10 +100,40 @@ export default {
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
       this.getStudents(currentPage)
+    },
+    search (phone) {
+      getSearchStudent(phone)
+        .then((res) => {
+          if (res.data.code === 403) {
+            alert('你没有权限访问')
+            this.$router.replace('/')
+          }
+          if (res.data.code === 200) {
+            this.pagination.total = res.data.data.total
+            this.pagination.pageSize = res.data.data.pageSize
+            this.data = res.data.data.list
+          }
+          this.loading = false
+        }).catch((err) => {
+          console.log(err)
+          this.loading = false
+          this.pagination.total = 0
+          this.pagination.pageSize = 0
+          this.data = []
+        })
     }
   },
   mounted () {
     this.getStudents()
+  },
+  watch: {
+    searchPhone: function (val) {
+      if (val !== '') {
+        this.search(val)
+      } else {
+        this.getStudents()
+      }
+    }
   }
 }
 </script>

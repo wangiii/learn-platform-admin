@@ -22,4 +22,14 @@ function deleteStudent (phone) {
   })
 }
 
-export { getStudent, deleteStudent }
+function getSearchStudent (phone) {
+  let pageNum = 1
+  let pageSize = 10
+  return axios.get('http://localhost:8888/student/search/?pageNum=' + pageNum + '&pageSize=' + pageSize + '&phone=' + phone, {
+    headers: {
+      'Authorization': 'Bearer ' + util.cookies.get('token')
+    }
+  })
+}
+
+export { getStudent, deleteStudent, getSearchStudent }
