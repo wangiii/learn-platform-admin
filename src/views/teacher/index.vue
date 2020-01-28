@@ -264,8 +264,6 @@ export default {
     search (phone) {
       getSearchTeacher(phone)
         .then((res) => {
-          console.log(phone)
-          console.log(res.data.data.list)
           if (res.data.code === 403) {
             alert('你没有权限访问')
             this.$router.replace('/')
@@ -279,6 +277,9 @@ export default {
         }).catch((err) => {
           console.log(err)
           this.loading = false
+          this.pagination.total = 0
+          this.pagination.pageSize = 0
+          this.data = []
         })
     }
   },
