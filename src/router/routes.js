@@ -71,6 +71,16 @@ const frameIn = [
         },
         component: _import('student')
       },
+      // 新闻通知管理
+      {
+        path: 'news',
+        name: 'news',
+        meta: {
+          title: '新闻管理',
+          auth: true
+        },
+        component: _import('news')
+      },
       // 系统 前端日志
       {
         path: 'log',

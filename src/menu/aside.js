@@ -15,6 +15,11 @@ let faculty = {
   title: '院系管理',
   icon: 'university'
 }
+let news = {
+  path: '/news',
+  title: '新闻通知管理',
+  icon: 'hacker-news'
+}
 let major = {
   path: '/major',
   title: '专业管理',
@@ -40,7 +45,10 @@ if (role === 'ROLE_ADMIN') {
   aside.push(course)
   aside.push(teacher)
   aside.push(student)
+  aside.push(news)
 }
-if (role === 'ROLE_TEACHER') {}
+if (role === 'ROLE_TEACHER') {
+  aside.push(news)
+}
 
 export default aside
