@@ -81,6 +81,16 @@ const frameIn = [
         },
         component: _import('news')
       },
+      // 视频管理
+      {
+        path: 'video',
+        name: 'video',
+        meta: {
+          title: '视频管理',
+          auth: true
+        },
+        component: _import('video')
+      },
       // 系统 前端日志
       {
         path: 'log',

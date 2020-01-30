@@ -37,6 +37,11 @@ let teacher = {
 }
 
 // 教师菜单
+let video = {
+  path: '/video',
+  title: '视频管理',
+  icon: 'video-camera'
+}
 
 const aside = []
 if (role === 'ROLE_ADMIN') {
@@ -49,6 +54,7 @@ if (role === 'ROLE_ADMIN') {
 }
 if (role === 'ROLE_TEACHER') {
   aside.push(news)
+  aside.push(video)
 }
 
 export default aside
