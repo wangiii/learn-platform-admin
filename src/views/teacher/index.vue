@@ -28,7 +28,9 @@
 <script>
 import { getTeacher, deleteTeacher, updateTeacher, getOptions, addTeacher, getSearchTeacher } from '@/api/teacher'
 import { getMajorDTO } from '@/api/major'
-import Tag from './Tag'
+import { getCourseDTOForAdmin } from '@/api/course'
+import majorTag from './majorTag'
+import courseTag from './courseTag'
 
 export default {
   data () {
@@ -54,7 +56,14 @@ export default {
           title: '所教专业',
           key: 'majors',
           component: {
-            name: Tag
+            name: majorTag
+          }
+        },
+        {
+          title: '所教课程',
+          key: 'courses',
+          component: {
+            name: courseTag
           }
         }
       ],
@@ -92,6 +101,13 @@ export default {
         },
         majors: {
           title: '所教专业',
+          component: {
+            name: 'el-checkbox',
+            options: []
+          }
+        },
+        courses: {
+          title: '所教课程',
           component: {
             name: 'el-checkbox',
             options: []
@@ -232,6 +248,19 @@ export default {
           console.log(err)
         })
     },
+    initCourseDTO () {
+      getCourseDTOForAdmin()
+        .then((res) => {
+          if (res.data.code === 403) {
+            alert('你没有操作权限')
+          }
+          if (res.data.code === 200) {
+            this.editTemplate.courses.component.options = res.data.data
+          }
+        }).catch((err) => {
+          console.log(err)
+        })
+    },
     newTeacher () {
       this.$refs.d2Crud.showDialog({
         mode: 'add'
@@ -287,6 +316,7 @@ export default {
     this.getTeachers()
     this.initOptions()
     this.initMajorDTO()
+    this.initCourseDTO()
   },
   watch: {
     searchPhone: function (val) {

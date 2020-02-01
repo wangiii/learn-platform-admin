@@ -43,7 +43,14 @@ function updateTeacher (id, row) {
       majorIds.push(row.majors[i])
     }
   }
+  let courseIds = []
+  if (row.courses.length > 0) {
+    for (var j = 0; j < row.courses.length; j++) {
+      courseIds.push(row.courses[j])
+    }
+  }
   param.append('majorIds', majorIds)
+  param.append('courseIds', courseIds)
 
   return axios({
     method: 'put',

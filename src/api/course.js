@@ -14,6 +14,14 @@ function getCourse (currentPage) {
   })
 }
 
+function getCourseDTOForAdmin () {
+  return axios.get('http://localhost:8888/course/dtoForAdmin', {
+    headers: {
+      'Authorization': 'Bearer ' + util.cookies.get('token')
+    }
+  })
+}
+
 function deleteCourse (id) {
   return axios.delete('http://localhost:8888/course/' + id, {
     headers: {
@@ -66,4 +74,4 @@ function addCourse (id, row) {
   })
 }
 
-export { getCourse, deleteCourse, updateCourse, addCourse }
+export { getCourse, deleteCourse, updateCourse, addCourse, getCourseDTOForAdmin }
