@@ -111,6 +111,16 @@ const frameIn = [
         },
         component: _import('homework')
       },
+      // 案例库管理
+      {
+        path: 'case',
+        name: 'case',
+        meta: {
+          title: '案例库管理',
+          auth: true
+        },
+        component: _import('case')
+      },
       // 系统 前端日志
       {
         path: 'log',

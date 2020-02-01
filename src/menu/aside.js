@@ -52,6 +52,11 @@ let homework = {
   title: '作业管理',
   icon: 'file-text-o'
 }
+let cases = {
+  path: '/case',
+  title: '案例库管理',
+  icon: 'file-pdf-o'
+}
 
 const aside = []
 if (role === 'ROLE_ADMIN') {
@@ -65,6 +70,7 @@ if (role === 'ROLE_ADMIN') {
 if (role === 'ROLE_TEACHER') {
   aside.push(news)
   aside.push(video)
+  aside.push(cases)
   aside.push(ppt)
   aside.push(homework)
 }
