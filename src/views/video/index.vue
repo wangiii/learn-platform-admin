@@ -184,7 +184,7 @@ export default {
     },
     handleRowAdd (row, done) {
       this.formOptions.saveLoading = true
-      if (row.name !== '' && row.url !== '') {
+      if (row.name !== '' && row.url !== '' && row.courseName !== undefined) {
         addVideo(row.id, row)
           .then((res) => {
             if (res.data.code === 403) {
