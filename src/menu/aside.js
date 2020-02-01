@@ -39,7 +39,7 @@ let teacher = {
 // 教师菜单
 let video = {
   path: '/video',
-  title: '视频管理',
+  title: '教学视频管理',
   icon: 'video-camera'
 }
 

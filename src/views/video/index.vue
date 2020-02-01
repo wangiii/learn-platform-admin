@@ -22,7 +22,8 @@
 </template>
 
 <script>
-import { getVideo, deleteVideo, updateVideo, addVideo, getFacultys, getCourses } from '@/api/video'
+import { getVideo, deleteVideo, updateVideo, addVideo, getCourses } from '@/api/video'
+import input from './input'
 
 export default {
   data () {
@@ -75,10 +76,6 @@ export default {
         name: {
           title: '资源标题',
           value: ''
-        },
-        url: {
-          title: '资源url',
-          value: ''
         }
       },
       formOptions: {
@@ -89,20 +86,14 @@ export default {
       },
       addTemplate: {
         name: {
-          title: '资源标题',
+          title: '标题',
           value: ''
         },
         url: {
-          title: '资源 url',
-          value: ''
-        },
-        facultyName: {
-          title: '所属院系',
+          title: '视频',
           value: '',
           component: {
-            name: 'el-select',
-            options: [],
-            span: 12
+            name: input
           }
         },
         courseName: {
@@ -193,7 +184,7 @@ export default {
     },
     handleRowAdd (row, done) {
       this.formOptions.saveLoading = true
-      if (row.name !== '') {
+      if (row.name !== '' && row.file !== '') {
         addVideo(row.id, row)
           .then((res) => {
             if (res.data.code === 403) {
@@ -213,7 +204,7 @@ export default {
       } else {
         done()
         this.getVideos()
-        alert('资源标题不能为空')
+        alert('资源不能为空')
       }
       this.formOptions.saveLoading = false
     },
@@ -222,16 +213,6 @@ export default {
       this.getVideos(currentPage)
     },
     initOptions () {
-      getFacultys().then((res) => {
-        if (res.data.code === 403) {
-          alert('你没有操作权限')
-        }
-        if (res.data.code === 200) {
-          this.addTemplate.facultyName.component.options = res.data.data
-        }
-      }).catch((err) => {
-        console.log(err)
-      })
       getCourses()
         .then((res) => {
           if (res.data.code === 403) {

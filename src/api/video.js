@@ -25,7 +25,6 @@ function deleteVideo (id) {
 function updateVideo (id, row) {
   let param = new URLSearchParams()
   param.append('name', row.name)
-  param.append('url', row.url)
 
   return axios({
     method: 'put',
@@ -41,7 +40,6 @@ function addVideo (id, row) {
   let param = new URLSearchParams()
   param.append('name', row.name)
   param.append('url', row.url)
-  param.append('faculty.id', row.facultyName)
   param.append('course.id', row.courseName)
   param.append('type', 'VIDEO')
 
@@ -55,14 +53,6 @@ function addVideo (id, row) {
   })
 }
 
-function getFacultys () {
-  return axios.get('http://localhost:8888/faculty/dto', {
-    headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
-    }
-  })
-}
-
 function getCourses () {
   return axios.get('http://localhost:8888/course/dto', {
     headers: {
@@ -71,4 +61,4 @@ function getCourses () {
   })
 }
 
-export { getVideo, deleteVideo, updateVideo, addVideo, getFacultys, getCourses }
+export { getVideo, deleteVideo, updateVideo, addVideo, getCourses }
