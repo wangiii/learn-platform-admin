@@ -62,6 +62,11 @@ let instruction = {
   title: '实验指导书管理',
   icon: 'file-word-o'
 }
+let syllabus = {
+  path: '/syllabus',
+  title: '课程大纲管理',
+  icon: 'file-archive-o'
+}
 
 const aside = []
 if (role === 'ROLE_ADMIN') {
@@ -77,6 +82,7 @@ if (role === 'ROLE_TEACHER') {
   aside.push(video)
   aside.push(cases)
   aside.push(instruction)
+  aside.push(syllabus)
   aside.push(ppt)
   aside.push(homework)
 }

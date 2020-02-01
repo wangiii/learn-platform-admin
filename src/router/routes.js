@@ -131,6 +131,16 @@ const frameIn = [
         },
         component: _import('instructionBook')
       },
+      // 课程大纲管理
+      {
+        path: 'syllabus',
+        name: 'syllabus',
+        meta: {
+          title: '课程大纲管理',
+          auth: true
+        },
+        component: _import('syllabus')
+      },
       // 系统 前端日志
       {
         path: 'log',
