@@ -47,6 +47,11 @@ let ppt = {
   title: '课件管理',
   icon: 'file-powerpoint-o'
 }
+let homework = {
+  path: '/homework',
+  title: '作业管理',
+  icon: 'file-text-o'
+}
 
 const aside = []
 if (role === 'ROLE_ADMIN') {
@@ -61,6 +66,7 @@ if (role === 'ROLE_TEACHER') {
   aside.push(news)
   aside.push(video)
   aside.push(ppt)
+  aside.push(homework)
 }
 
 export default aside

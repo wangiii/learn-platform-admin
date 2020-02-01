@@ -101,6 +101,16 @@ const frameIn = [
         },
         component: _import('ppt')
       },
+      // 作业管理
+      {
+        path: 'homework',
+        name: 'homework',
+        meta: {
+          title: '作业管理',
+          auth: true
+        },
+        component: _import('homework')
+      },
       // 系统 前端日志
       {
         path: 'log',
