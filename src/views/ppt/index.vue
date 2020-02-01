@@ -10,19 +10,19 @@
       @row-edit="handleRowEdit"
       @dialog-cancel="handleDialogCancel"
       @row-remove="handleRowRemove"
-      add-title="新增视频"
+      add-title="新增课件"
       :add-template="addTemplate"
       @row-add="handleRowAdd"
       :loading="loading"
       :pagination="pagination"
       @pagination-current-change="paginationCurrentChange">
-      <el-button slot="header" style="margin-bottom: 5px" @click="newResource">新增视频</el-button>
+      <el-button slot="header" style="margin-bottom: 5px" @click="newResource">新增课件</el-button>
     </d2-crud>
   </d2-container>
 </template>
 
 <script>
-import { getVideo, deleteVideo, updateVideo, addVideo, getCourses } from '@/api/video'
+import { getPPT, deletePPT, updatePPT, addPPT, getCourses } from '@/api/ppt'
 import input from './input'
 
 export default {
@@ -74,7 +74,7 @@ export default {
       },
       editTemplate: {
         name: {
-          title: '资源标题',
+          title: '课件标题',
           value: ''
         }
       },
@@ -90,7 +90,7 @@ export default {
           value: ''
         },
         url: {
-          title: '视频',
+          title: '课件',
           value: '',
           component: {
             name: input
@@ -108,8 +108,8 @@ export default {
     }
   },
   methods: {
-    getVideos (currentPage) {
-      getVideo(currentPage)
+    getPPTs (currentPage) {
+      getPPT(currentPage)
         .then((res) => {
           if (res.data.code === 403) {
             alert('你没有权限访问')
@@ -129,7 +129,7 @@ export default {
     handleRowEdit ({ index, row }, done) {
       this.formOptions.saveLoading = true
       if (row.name !== '') {
-        updateVideo(row.id, row)
+        updatePPT(row.id, row)
           .then((res) => {
             if (res.data.code === 403) {
               alert('你没有操作权限')
@@ -139,7 +139,7 @@ export default {
                 message: '编辑成功',
                 type: 'success'
               })
-              this.getVideos()
+              this.getPPTs()
               done()
             }
           }).catch((err) => {
@@ -149,7 +149,7 @@ export default {
         alert('数据不能为空')
       }
       done()
-      this.getVideos()
+      this.getPPTs()
       this.formOptions.saveLoading = false
     },
     handleDialogCancel (done) {
@@ -160,7 +160,7 @@ export default {
       done()
     },
     handleRowRemove ({ index, row }, done) {
-      deleteVideo(row.id)
+      deletePPT(row.id)
         .then((res) => {
           if (res.data.code === 403) {
             alert('你没有操作权限')
@@ -170,7 +170,7 @@ export default {
               message: '删除成功',
               type: 'success'
             })
-            this.getVideos()
+            this.getPPTs()
             done()
           }
         }).catch((err) => {
@@ -185,7 +185,7 @@ export default {
     handleRowAdd (row, done) {
       this.formOptions.saveLoading = true
       if (row.name !== '' && row.url !== '') {
-        addVideo(row.id, row)
+        addPPT(row.id, row)
           .then((res) => {
             if (res.data.code === 403) {
               alert('你没有操作权限')
@@ -196,21 +196,21 @@ export default {
                 type: 'success'
               })
               done()
-              this.getVideos()
+              this.getPPTs()
             }
           }).catch((err) => {
             console.log(err)
           })
       } else {
         done()
-        this.getVideos()
+        this.getPPTs()
         alert('资源不能为空')
       }
       this.formOptions.saveLoading = false
     },
     paginationCurrentChange (currentPage) {
       this.pagination.currentPage = currentPage
-      this.getVideos(currentPage)
+      this.getPPTs(currentPage)
     },
     initOptions () {
       getCourses()
@@ -227,7 +227,7 @@ export default {
     }
   },
   mounted () {
-    this.getVideos()
+    this.getPPTs()
     this.initOptions()
   }
 }

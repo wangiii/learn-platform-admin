@@ -40,7 +40,12 @@ let teacher = {
 let video = {
   path: '/video',
   title: '教学视频管理',
-  icon: 'video-camera'
+  icon: 'file-video-o'
+}
+let ppt = {
+  path: '/ppt',
+  title: '课件管理',
+  icon: 'file-powerpoint-o'
 }
 
 const aside = []
@@ -55,6 +60,7 @@ if (role === 'ROLE_ADMIN') {
 if (role === 'ROLE_TEACHER') {
   aside.push(news)
   aside.push(video)
+  aside.push(ppt)
 }
 
 export default aside

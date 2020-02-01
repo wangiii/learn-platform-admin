@@ -91,6 +91,16 @@ const frameIn = [
         },
         component: _import('video')
       },
+      // 课件管理
+      {
+        path: 'ppt',
+        name: 'ppt',
+        meta: {
+          title: '课件管理',
+          auth: true
+        },
+        component: _import('ppt')
+      },
       // 系统 前端日志
       {
         path: 'log',

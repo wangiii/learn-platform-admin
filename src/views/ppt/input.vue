@@ -2,14 +2,14 @@
   <el-upload
         drag
         action=""
-        accept=".mp4,.flv,.avi,.wmv,.rmvb"
+        accept=".ppt,.txt"
         :http-request="handleFile"
         :before-upload="onBeforeUpload"
         :auto-upload="true"
         :limit="1">
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        <div class="el-upload__tip" slot="tip">只能上传视频文件</div>
+        <div class="el-upload__tip" slot="tip">只能上传 PPT 文件</div>
     </el-upload>
 </template>
 <script>
@@ -29,7 +29,7 @@ export default {
     handleFile (param) {
       const formData = new FormData()
       formData.append('file', this.uploadFile)
-      formData.append('type', 'VIDEO')
+      formData.append('type', 'PPT')
       console.log('开始上传')
       console.log('file' + this.uploadFile)
       axios({
