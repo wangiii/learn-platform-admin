@@ -57,6 +57,11 @@ let cases = {
   title: '案例库管理',
   icon: 'file-pdf-o'
 }
+let instruction = {
+  path: '/instructionBook',
+  title: '实验指导书管理',
+  icon: 'file-word-o'
+}
 
 const aside = []
 if (role === 'ROLE_ADMIN') {
@@ -71,6 +76,7 @@ if (role === 'ROLE_TEACHER') {
   aside.push(news)
   aside.push(video)
   aside.push(cases)
+  aside.push(instruction)
   aside.push(ppt)
   aside.push(homework)
 }

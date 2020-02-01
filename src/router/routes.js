@@ -121,6 +121,16 @@ const frameIn = [
         },
         component: _import('case')
       },
+      // 实验指导书管理
+      {
+        path: 'instructionBook',
+        name: 'instructionBook',
+        meta: {
+          title: '实验指导书管理',
+          auth: true
+        },
+        component: _import('instructionBook')
+      },
       // 系统 前端日志
       {
         path: 'log',
