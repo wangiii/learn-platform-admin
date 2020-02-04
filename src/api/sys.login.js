@@ -1,5 +1,6 @@
 // import request from '@/plugin/axios'
 import axios from 'axios'
+import globalInfo from '@/api/global'
 
 // export function AccountLogin (data) {
 //   return request({
@@ -10,5 +11,5 @@ import axios from 'axios'
 // }
 
 export function AccountLogin (data) {
-  return axios.post('http://127.0.0.1:8888/login', data)
+  return axios.post(globalInfo.baseURLWithPort + '/login', data)
 }

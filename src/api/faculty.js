@@ -1,5 +1,5 @@
 import axios from 'axios'
-import util from '@/libs/util.js'
+import globalInfo from '@/api/global'
 
 function getFaculty (currentPage) {
   let pageNum = 1
@@ -7,17 +7,17 @@ function getFaculty (currentPage) {
   if (currentPage != null) {
     pageNum = currentPage
   }
-  return axios.get('http://localhost:8888/faculty/?pageNum=' + pageNum + '&pageSize=' + pageSize, {
+  return axios.get(globalInfo.baseURLWithPort + '/faculty/?pageNum=' + pageNum + '&pageSize=' + pageSize, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
 
 function deleteFaculty (id) {
-  return axios.delete('http://localhost:8888/faculty/' + id, {
+  return axios.delete(globalInfo.baseURLWithPort + '/faculty/' + id, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
@@ -28,9 +28,9 @@ function updateFaculty (id, row) {
 
   return axios({
     method: 'put',
-    url: 'http://localhost:8888/faculty/' + id,
+    url: globalInfo.baseURLWithPort + '/faculty/' + id,
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     },
     data: param
   })
@@ -42,9 +42,9 @@ function addFaculty (id, row) {
 
   return axios({
     method: 'post',
-    url: 'http://localhost:8888/faculty/',
+    url: globalInfo.baseURLWithPort + '/faculty/',
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     },
     data: param
   })

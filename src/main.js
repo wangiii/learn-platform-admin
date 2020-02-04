@@ -13,6 +13,7 @@ import menuAside from '@/menu/aside'
 import { frameInRoutes } from '@/router/routes'
 
 import D2Crud from '@d2-projects/d2-crud'
+
 Vue.use(D2Crud)
 
 // 核心插件

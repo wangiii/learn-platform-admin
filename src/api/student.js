@@ -1,5 +1,5 @@
 import axios from 'axios'
-import util from '@/libs/util.js'
+import globalInfo from '@/api/global'
 
 function getStudent (currentPage) {
   let pageNum = 1
@@ -7,17 +7,17 @@ function getStudent (currentPage) {
   if (currentPage != null) {
     pageNum = currentPage
   }
-  return axios.get('http://localhost:8888/student/?pageNum=' + pageNum + '&pageSize=' + pageSize, {
+  return axios.get(globalInfo.baseURLWithPort + '/student/?pageNum=' + pageNum + '&pageSize=' + pageSize, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
 
 function deleteStudent (phone) {
-  return axios.delete('http://localhost:8888/student/' + phone, {
+  return axios.delete(globalInfo.baseURLWithPort + '/student/' + phone, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
@@ -25,9 +25,9 @@ function deleteStudent (phone) {
 function getSearchStudent (phone) {
   let pageNum = 1
   let pageSize = 10
-  return axios.get('http://localhost:8888/student/search/?pageNum=' + pageNum + '&pageSize=' + pageSize + '&phone=' + phone, {
+  return axios.get(globalInfo.baseURLWithPort + '/student/search/?pageNum=' + pageNum + '&pageSize=' + pageSize + '&phone=' + phone, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import util from '@/libs/util.js'
+import globalInfo from '@/api/global'
 
 function getMajor (currentPage) {
   let pageNum = 1
@@ -7,33 +7,33 @@ function getMajor (currentPage) {
   if (currentPage != null) {
     pageNum = currentPage
   }
-  return axios.get('http://localhost:8888/major/?pageNum=' + pageNum + '&pageSize=' + pageSize, {
+  return axios.get(globalInfo.baseURLWithPort + '/major/?pageNum=' + pageNum + '&pageSize=' + pageSize, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
 
 function getMajorDTO () {
-  return axios.get('http://localhost:8888/major/dto', {
+  return axios.get(globalInfo.baseURLWithPort + '/major/dto', {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
 
 function getOptions () {
-  return axios.get('http://localhost:8888/faculty/dto', {
+  return axios.get(globalInfo.baseURLWithPort + '/faculty/dto', {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
 
 function deleteMajor (id) {
-  return axios.delete('http://localhost:8888/major/' + id, {
+  return axios.delete(globalInfo.baseURLWithPort + '/major/' + id, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
@@ -45,9 +45,9 @@ function updateMajor (id, row) {
 
   return axios({
     method: 'put',
-    url: 'http://localhost:8888/major/' + id,
+    url: globalInfo.baseURLWithPort + '/major/' + id,
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     },
     data: param
   })
@@ -60,9 +60,9 @@ function addMajor (id, row) {
 
   return axios({
     method: 'post',
-    url: 'http://localhost:8888/major/',
+    url: globalInfo.baseURLWithPort + '/major/',
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     },
     data: param
   })

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import util from '@/libs/util.js'
+import globalInfo from '@/api/global'
 
 function getCase (currentPage) {
   let pageNum = 1
@@ -7,17 +7,17 @@ function getCase (currentPage) {
   if (currentPage != null) {
     pageNum = currentPage
   }
-  return axios.get('http://localhost:8888/courseResource/type/CASE?pageNum=' + pageNum + '&pageSize=' + pageSize, {
+  return axios.get(globalInfo.baseURLWithPort + '/courseResource/type/CASE?pageNum=' + pageNum + '&pageSize=' + pageSize, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
 
 function deleteCase (id) {
-  return axios.delete('http://localhost:8888/courseResource/' + id, {
+  return axios.delete(globalInfo.baseURLWithPort + '/courseResource/' + id, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
@@ -28,9 +28,9 @@ function updateCase (id, row) {
 
   return axios({
     method: 'put',
-    url: 'http://localhost:8888/courseResource/' + id,
+    url: globalInfo.baseURLWithPort + '/courseResource/' + id,
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     },
     data: param
   })
@@ -45,18 +45,18 @@ function addCase (id, row) {
 
   return axios({
     method: 'post',
-    url: 'http://localhost:8888/courseResource/',
+    url: globalInfo.baseURLWithPort + '/courseResource/',
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     },
     data: param
   })
 }
 
 function getCourses () {
-  return axios.get('http://localhost:8888/course/dto', {
+  return axios.get(globalInfo.baseURLWithPort + '/course/dto', {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }

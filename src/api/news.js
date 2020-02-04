@@ -1,5 +1,5 @@
 import axios from 'axios'
-import util from '@/libs/util.js'
+import globalInfo from '@/api/global'
 
 function getNews (currentPage) {
   let pageNum = 1
@@ -7,17 +7,17 @@ function getNews (currentPage) {
   if (currentPage != null) {
     pageNum = currentPage
   }
-  return axios.get('http://localhost:8888/news/?pageNum=' + pageNum + '&pageSize=' + pageSize, {
+  return axios.get(globalInfo.baseURLWithPort + '/news/?pageNum=' + pageNum + '&pageSize=' + pageSize, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
 
 function deleteNews (id) {
-  return axios.delete('http://localhost:8888/news/' + id, {
+  return axios.delete(globalInfo.baseURLWithPort + '/news/' + id, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
@@ -29,9 +29,9 @@ function updateNews (id, row) {
 
   return axios({
     method: 'put',
-    url: 'http://localhost:8888/news/' + id,
+    url: globalInfo.baseURLWithPort + '/news/' + id,
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     },
     data: param
   })
@@ -44,9 +44,9 @@ function addNews (id, row) {
 
   return axios({
     method: 'post',
-    url: 'http://localhost:8888/news/',
+    url: globalInfo.baseURLWithPort + '/news/',
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     },
     data: param
   })

@@ -14,7 +14,7 @@
 </template>
 <script>
 import axios from 'axios'
-import util from '@/libs/util.js'
+import globalInfo from '@/api/global'
 
 export default {
   data () {
@@ -34,9 +34,9 @@ export default {
       console.log('file' + this.uploadFile)
       axios({
         method: 'post',
-        url: 'http://localhost:8888/courseResource/res',
+        url: globalInfo.baseURLWithPort + '/courseResource/res',
         headers: {
-          'Authorization': 'Bearer ' + util.cookies.get('token')
+          'Authorization': globalInfo.authorizationToken
         },
         data: formData
       })

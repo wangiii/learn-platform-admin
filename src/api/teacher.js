@@ -1,5 +1,5 @@
 import axios from 'axios'
-import util from '@/libs/util.js'
+import globalInfo from '@/api/global'
 
 function getTeacher (currentPage) {
   let pageNum = 1
@@ -7,9 +7,9 @@ function getTeacher (currentPage) {
   if (currentPage != null) {
     pageNum = currentPage
   }
-  return axios.get('http://localhost:8888/teacher/?pageNum=' + pageNum + '&pageSize=' + pageSize, {
+  return axios.get(globalInfo.baseURLWithPort + '/teacher/?pageNum=' + pageNum + '&pageSize=' + pageSize, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
@@ -17,17 +17,17 @@ function getTeacher (currentPage) {
 function getSearchTeacher (phone) {
   let pageNum = 1
   let pageSize = 10
-  return axios.get('http://localhost:8888/teacher/search/?pageNum=' + pageNum + '&pageSize=' + pageSize + '&phone=' + phone, {
+  return axios.get(globalInfo.baseURLWithPort + '/teacher/search/?pageNum=' + pageNum + '&pageSize=' + pageSize + '&phone=' + phone, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
 
 function deleteTeacher (phone) {
-  return axios.delete('http://localhost:8888/teacher/' + phone, {
+  return axios.delete(globalInfo.baseURLWithPort + '/teacher/' + phone, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
@@ -54,18 +54,18 @@ function updateTeacher (id, row) {
 
   return axios({
     method: 'put',
-    url: 'http://localhost:8888/teacher/' + id,
+    url: globalInfo.baseURLWithPort + '/teacher/' + id,
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     },
     data: param
   })
 }
 
 function getOptions () {
-  return axios.get('http://localhost:8888/faculty/dto', {
+  return axios.get(globalInfo.baseURLWithPort + '/faculty/dto', {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
@@ -79,9 +79,9 @@ function addTeacher (id, row) {
 
   return axios({
     method: 'post',
-    url: 'http://localhost:8888/teacher/',
+    url: globalInfo.baseURLWithPort + '/teacher/',
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     },
     data: param
   })

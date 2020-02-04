@@ -1,5 +1,5 @@
 import axios from 'axios'
-import util from '@/libs/util.js'
+import globalInfo from '@/api/global'
 
 function getCourse (currentPage) {
   let pageNum = 1
@@ -7,25 +7,25 @@ function getCourse (currentPage) {
   if (currentPage != null) {
     pageNum = currentPage
   }
-  return axios.get('http://localhost:8888/course/?pageNum=' + pageNum + '&pageSize=' + pageSize, {
+  return axios.get(globalInfo.baseURLWithPort + '/course/?pageNum=' + pageNum + '&pageSize=' + pageSize, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
 
 function getCourseDTOForAdmin () {
-  return axios.get('http://localhost:8888/course/dtoForAdmin', {
+  return axios.get(globalInfo.baseURLWithPort + '/course/dtoForAdmin', {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
 
 function deleteCourse (id) {
-  return axios.delete('http://localhost:8888/course/' + id, {
+  return axios.delete(globalInfo.baseURLWithPort + '/course/' + id, {
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     }
   })
 }
@@ -48,9 +48,9 @@ function updateCourse (id, row) {
 
   return axios({
     method: 'put',
-    url: 'http://localhost:8888/course/' + id,
+    url: globalInfo.baseURLWithPort + '/course/' + id,
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     },
     data: param
   })
@@ -66,9 +66,9 @@ function addCourse (id, row) {
 
   return axios({
     method: 'post',
-    url: 'http://localhost:8888/course/',
+    url: globalInfo.baseURLWithPort + '/course/',
     headers: {
-      'Authorization': 'Bearer ' + util.cookies.get('token')
+      'Authorization': globalInfo.authorizationToken
     },
     data: param
   })
