@@ -25,6 +25,7 @@
 import { getCourse, deleteCourse, updateCourse, addCourse } from '@/api/course'
 import { getMajorDTO } from '@/api/major'
 import Tag from './Tag'
+import input from './input'
 
 export default {
   data () {
@@ -121,7 +122,10 @@ export default {
         },
         cover: {
           title: '封面图',
-          value: ''
+          value: '',
+          component: {
+            name: input
+          }
         },
         semester: {
           title: '学期',
@@ -216,7 +220,7 @@ export default {
     },
     handleRowAdd (row, done) {
       this.formOptions.saveLoading = true
-      if (row.name !== '') {
+      if (row.name !== '' && row.cover !== '') {
         addCourse(row.id, row)
           .then((res) => {
             if (res.data.code === 403) {
