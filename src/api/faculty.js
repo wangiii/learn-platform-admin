@@ -1,6 +1,14 @@
 import axios from 'axios'
 import globalInfo from '@/api/global'
 
+function getFacultyPieRow () {
+  return axios.get(globalInfo.baseURLWithPort + '/faculty/faculty-pie-row', {
+    headers: {
+      'Authorization': globalInfo.authorizationToken
+    }
+  })
+}
+
 function getFaculty (currentPage) {
   let pageNum = 1
   let pageSize = 10
@@ -50,4 +58,4 @@ function addFaculty (id, row) {
   })
 }
 
-export { getFaculty, deleteFaculty, updateFaculty, addFaculty }
+export { getFaculty, deleteFaculty, updateFaculty, addFaculty, getFacultyPieRow }
